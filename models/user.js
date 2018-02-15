@@ -12,18 +12,22 @@ module.exports = (sequelize, DataTypes) => {
 			full_name: DataTypes.STRING,
 			email: {
 				type: DataTypes.STRING,
-				unique: true
+				unique: true,
+				validate: {
+					isEmail: true
+				}
 			},
 			token: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				unique: true
+				unique: true,
+				validate: {}
 			}
 		},
 		{}
 	);
 	User.associate = function(models) {
-		// associations can be defined here
+		User.belongsTo(models.UserRole);
 	};
 	return User;
 };
