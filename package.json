@@ -1,23 +1,24 @@
 {
-  "name": "newday-be",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.0",
-    "pg": "^7.4.1",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^4.33.4",
-    "serve-favicon": "~2.4.5"
-  },
-  "devDependencies": {
-    "faker": "^4.1.0"
-  }
+	"name": "newday-be",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"start": "nodemon ./bin/www"
+	},
+	"dependencies": {
+		"body-parser": "~1.18.2",
+		"cookie-parser": "~1.4.3",
+		"debug": "~2.6.9",
+		"express": "~4.15.5",
+		"jade": "~1.11.0",
+		"morgan": "~1.9.0",
+		"pg": "^7.4.1",
+		"pg-hstore": "^2.3.2",
+		"sequelize": "^4.33.4",
+		"serve-favicon": "~2.4.5"
+	},
+	"devDependencies": {
+		"faker": "^4.1.0",
+		"nodemon": "^1.15.0"
+	}
 }
