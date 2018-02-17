@@ -1,24 +1,20 @@
 {
-  "name": "newday_be",
-  "version": "1.0.0",
-  "description": "Backend for New Day app",
-  "main": "index.js",
+  "name": "newday-be",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/khalilovic/newday_be.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/khalilovic/newday_be/issues"
-  },
-  "homepage": "https://gitlab.com/khalilovic/newday_be#README",
   "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.33.4"
+    "sequelize": "^4.33.4",
+    "serve-favicon": "~2.4.5"
   }
 }
