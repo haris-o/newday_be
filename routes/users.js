@@ -4,7 +4,17 @@ var models = require('../models');
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-	//get all users
+	models.User.findAll()
+		.then(users =>
+			res.status(200).json({
+				data: users
+			})
+		)
+		.catch(error =>
+			res.status(500).json({
+				error: error
+			})
+		);
 });
 
 router.post('/', (req, res, next) => {
