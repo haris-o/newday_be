@@ -7,36 +7,22 @@ module.exports = {
 		let users = [];
 		for (let i = 0; i < 100; i++) {
 			users.push({
-				//id: 'id',
-				//username
-				//full_name
-				//email
-				//token
-				//password
-				//UserRoleId
-				//createdAt
-				//updatedAt
+				id: faker.random.uuid(),
+				username: i % 3 === 0 ? faker.internet.userName() : null,
+				fullName: faker.name.findName(),
+				email: faker.internet.email(),
+				token: faker.finance.iban(),
+				password: i % 5 === 0 ? faker.internet.password() : null,
+				UserRoleId: i % 2,
+				createdAt: faker.date.recent(),
+				updatedAt: new Date()
 			});
 		}
-		/*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
 
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
+		queryInterface.bulkInsert('Users', users, {});
 	},
 
 	down: (queryInterface, Sequelize) => {
-		/*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('Person', null, {});
-    */
+		queryInterface.bulkDelete('Users', null);
 	}
 };

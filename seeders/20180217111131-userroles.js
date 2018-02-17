@@ -6,13 +6,13 @@ module.exports = {
 			'UserRoles',
 			[
 				{
-					id: 1,
+					id: 0,
 					name: 'admin',
 					createdAt: new Date(),
 					updatedAt: new Date()
 				},
 				{
-					id: 2,
+					id: 1,
 					name: 'user',
 					createdAt: new Date(),
 					updatedAt: new Date()
