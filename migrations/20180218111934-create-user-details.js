@@ -22,7 +22,7 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			dateOfBirth: {
-				type: Sequelize.DATEONLY
+				type: Sequelize.DATE
 			},
 			weight: {
 				type: Sequelize.INTEGER

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 			firstName: DataTypes.STRING,
 			lastName: DataTypes.STRING,
 			username: DataTypes.STRING,
-			dateOfBirth: DataTypes.DATEONLY,
+			dateOfBirth: DataTypes.DATE,
 			weight: DataTypes.INTEGER,
 			height: DataTypes.INTEGER,
 			isFemale: DataTypes.BOOLEAN

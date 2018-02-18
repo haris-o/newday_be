@@ -6,23 +6,23 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		let users = [];
 		for (let i = 0; i < 100; i++) {
-			users.push({
-				id: faker.random.uuid(),
-				username: i % 3 === 0 ? faker.internet.userName() : null,
-				fullName: faker.name.findName(),
+			let newUser = {
+				id: i,
 				email: faker.internet.email(),
 				token: faker.finance.iban(),
-				password: i % 5 === 0 ? faker.internet.password() : null,
+				active: i % 2 === 0,
 				UserRoleId: i % 2,
 				createdAt: faker.date.recent(),
 				updatedAt: new Date()
-			});
+			};
+
+			users.push(newUser);
 		}
 
-		queryInterface.bulkInsert('Users', users, {});
+		return queryInterface.bulkInsert('Users', users, {});
 	},
 
 	down: (queryInterface, Sequelize) => {
-		queryInterface.bulkDelete('Users', null);
+		return queryInterface.bulkDelete('Users', null);
 	}
 };
