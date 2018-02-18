@@ -4,7 +4,9 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res) => {
-	models.User.findAll()
+	models.User.findAll({
+		include: [models.UserDetail, models.UserRole]
+	})
 		.then(users =>
 			res.status(200).json({
 				data: users
