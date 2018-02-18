@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
 		.then(user =>
 			res.status(201).json({
 				message: 'User created.',
-				user: user
+				data: user
 			})
 		)
 		.catch(error => {

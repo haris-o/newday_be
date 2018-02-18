@@ -7,19 +7,14 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.STRING
 			},
-			username: {
-				type: Sequelize.STRING
-			},
-			fullName: {
-				type: Sequelize.STRING
-			},
 			email: {
+				allowNull: false,
 				type: Sequelize.STRING,
 				unique: true
 			},
 			token: {
-				type: Sequelize.STRING,
 				allowNull: false,
+				type: Sequelize.STRING,
 				unique: true
 			},
 			password: {

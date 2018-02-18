@@ -8,9 +8,8 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				type: DataTypes.STRING
 			},
-			username: DataTypes.STRING,
-			fullName: DataTypes.STRING,
 			email: {
+				allowNull: false,
 				type: DataTypes.STRING,
 				unique: true,
 				validate: {
