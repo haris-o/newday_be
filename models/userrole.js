@@ -11,7 +11,13 @@ module.exports = (sequelize, DataTypes) => {
 		{}
 	);
 	UserRole.associate = function(models) {
-		UserRole.hasMany(models.User);
+		UserRole.hasMany(models.User, {
+			foreignKey: {
+				name: 'UserRoleId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
+		});
 	};
 	return UserRole;
 };

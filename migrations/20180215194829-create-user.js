@@ -20,12 +20,10 @@ module.exports = {
 			password: {
 				type: Sequelize.STRING
 			},
-			UserRoleId: {
-				type: Sequelize.INTEGER,
-				references: {
-					model: 'UserRoles',
-					key: 'id'
-				}
+			active: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false,
+				defaultValue: true
 			},
 			createdAt: {
 				allowNull: false,
@@ -34,6 +32,14 @@ module.exports = {
 			updatedAt: {
 				allowNull: false,
 				type: Sequelize.DATE
+			},
+			UserRoleId: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				onDelete: 'CASCADE',
+				references: {
+					model: 'UserRoles'
+				}
 			}
 		});
 	},

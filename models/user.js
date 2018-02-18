@@ -23,12 +23,25 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			password: {
 				type: DataTypes.STRING
+			},
+			active: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false
 			}
 		},
 		{}
 	);
 	User.associate = function(models) {
-		User.belongsTo(models.UserRole);
+		User.belongsTo(models.UserRole, {
+			foreignKey: {
+				name: 'UserRoleId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
+		});
+		User.hasOne(models.UserDetail, {
+			foreignKey: 'id'
+		});
 	};
 	return User;
 };
