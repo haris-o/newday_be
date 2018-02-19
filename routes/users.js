@@ -19,14 +19,31 @@ router.get('/', (req, res) => {
 		);
 });
 
-router.put('/:id', (req, res) => {
+/* SOFT DELETE a user */
+router.delete('/:id', (req, res) => {
 	const userId = req.params.id;
 
-	//models.User.
-});
-
-router.delete('/:id', (req, res) => {
-	//delete a user
+	models.User.update(
+		{
+			active: false
+		},
+		{
+			where: {
+				id: userId
+			}
+		}
+	)
+		.then(result =>
+			res.status(200).json({
+				message: 'User deleted.',
+				originalMessage: result
+			})
+		)
+		.catch(err =>
+			res.status(500).json({
+				error: err
+			})
+		);
 });
 
 module.exports = router;
