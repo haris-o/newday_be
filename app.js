@@ -4,6 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport'),
+	FacebookTokenStrategy = require('passport-facebook-token').Strategy;
+
+var models = require('./models');
+var credentials = require(path.join(__dirname, '/config/auth.json'));
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -22,6 +27,36 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use(passport.initialize());
+passport.use(
+	new FacebookTokenStrategy(
+		{
+			clientId: credentials.facebook.app_id,
+			clientSecret: credentials.facebook.app_secret
+		},
+		function(accessToken, refreshToken, profile, done) {
+			console.log(profile);
+			models.User.findOne({
+				where: {
+					email: profile.emails[0].value
+				}
+			})
+				.then(user => {
+					if (!user) {
+						console.log('User does not exist yet!');
+						done(null, false);
+					} else {
+						console.log(user);
+						done(null, user);
+					}
+				})
+				.catch(err => {
+					done(err);
+				});
+		}
+	)
+);
 
 app.use('/', index);
 app.use('/users', users);
