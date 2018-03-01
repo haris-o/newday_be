@@ -1,9 +1,6 @@
+var passport = require('passport');
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
-var jwt = require('jsonwebtoken');
-var expressJwt = require('express-jwt');
-var passport = require('passport');
 
 router.get(
 	'/facebook',

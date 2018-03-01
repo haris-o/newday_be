@@ -1,15 +1,11 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+//var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var jwt = require('jsonwebtoken');
-var passport = require('passport'),
-	FacebookTokenStrategy = require('passport-facebook-token');
-
-var models = require('./models');
-var credentials = require(path.join(__dirname, '/config/auth.json'));
+var passport = require('passport');
+var strategies = require('./strategies');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -30,50 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
-passport.use(
-	new FacebookTokenStrategy(
-		{
-			clientID: credentials.facebook.app_id,
-			clientSecret: credentials.facebook.app_secret,
-			profileFields: ['gender', 'name', 'email']
-		},
-		function(accessToken, refreshToken, profile, done) {
-			console.log(profile);
-			models.User.findById(profile.id, {
-				include: [{ all: true }]
-			})
-				.then(user => {
-					if (!user) {
-						models.User.create({
-							id: profile.id,
-							email: profile.emails[0].value || null,
-							token: jwt.sign(profile._json, 'newday'),
-							UserRoleId: 1
-						})
-							.then(user => {
-								console.log(user.dataValues);
-								user
-									.createUserDetail({
-										firstName: profile.name.givenName,
-										lastName: profile.name.familyName,
-										isFemale: profile.gender !== 'male'
-									})
-									.then(details => {
-										user.dataValues.userDetail = details;
-										done(null, user.dataValues);
-									});
-							})
-							.catch(err => done(err));
-					} else {
-						done('Inactive user');
-					}
-				})
-				.catch(err => {
-					done(err);
-				});
-		}
-	)
-);
+passport.use(strategies.fb);
 
 app.use('/', index);
 app.use('/users', users);
