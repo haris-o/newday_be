@@ -10,7 +10,6 @@ module.exports = {
 				id: i,
 				email: faker.internet.email(),
 				token: faker.finance.iban(),
-				active: i % 2 === 0,
 				UserRoleId: i % 2,
 				createdAt: faker.date.recent(),
 				updatedAt: new Date()

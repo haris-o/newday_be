@@ -4,9 +4,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res) => {
-	models.User.findAll({
-		include: [models.UserDetail, models.UserRole]
-	})
+	models.User.findAll()
 		.then(users =>
 			res.status(200).json({
 				data: users
@@ -23,20 +21,14 @@ router.get('/', (req, res) => {
 router.delete('/:id', (req, res) => {
 	const userId = req.params.id;
 
-	models.User.update(
-		{
-			active: false
-		},
-		{
-			where: {
-				id: userId
-			}
+	models.User.destroy({
+		where: {
+			id: userId
 		}
-	)
+	})
 		.then(result =>
 			res.status(200).json({
-				message: 'User deleted.',
-				originalMessage: result
+				message: 'User deleted.'
 			})
 		)
 		.catch(err =>

@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
 			height: DataTypes.INTEGER,
 			isFemale: DataTypes.BOOLEAN
 		},
-		{}
+		{
+			paranoid: true
+		}
 	);
 	UserDetail.associate = function(models) {
 		UserDetail.belongsTo(models.User, {

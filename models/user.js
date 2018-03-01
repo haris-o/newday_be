@@ -23,14 +23,11 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			password: {
 				type: DataTypes.STRING
-			},
-			active: {
-				type: DataTypes.BOOLEAN,
-				allowNull: false,
-				defaultValue: true
 			}
 		},
-		{}
+		{
+			paranoid: true
+		}
 	);
 	User.associate = function(models) {
 		User.belongsTo(models.UserRole, {

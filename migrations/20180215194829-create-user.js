@@ -19,16 +19,16 @@ module.exports = {
 			password: {
 				type: Sequelize.STRING
 			},
-			active: {
-				type: Sequelize.BOOLEAN,
-				allowNull: false
-			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE
 			},
 			updatedAt: {
 				allowNull: false,
+				type: Sequelize.DATE
+			},
+			deletedAt: {
+				allowNull: true,
 				type: Sequelize.DATE
 			},
 			UserRoleId: {

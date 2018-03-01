@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			}
 		},
-		{}
+		{
+			paranoid: true
+		}
 	);
 	UserRole.associate = function(models) {
 		UserRole.hasMany(models.User, {
