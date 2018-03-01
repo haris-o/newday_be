@@ -64,9 +64,6 @@ passport.use(
 									});
 							})
 							.catch(err => done(err));
-					} else if (user.active) {
-						console.log(user);
-						done(null, user.dataValues);
 					} else {
 						done('Inactive user');
 					}
