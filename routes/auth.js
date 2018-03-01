@@ -3,41 +3,26 @@ var router = express.Router();
 var models = require('../models');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
+var passport = require('passport');
 
-var createToken = function(auth) {
-	return jwt.sign(
-		{
-			user: auth
-		},
-		'newday'
-	);
-};
-
-var generateToken = function(req, res, next) {
-	req.token = createToken(req.auth);
-	next();
-};
-
-var sendToken = function(req, res) {
-	res.status(200).json({
-		token: req.auth
-	});
-};
-
-var authenticate = expressJwt({
-	secret: 'newday',
-	requestProperty: 'auth',
-	getToken: function(req) {
-		if (req.headers['x-auth-token']) {
-			return req.headers['x-auth-token'];
+router.get(
+	'/facebook',
+	passport.authenticate('facebook-token', {
+		session: false,
+		scope: ['public_profile', 'email']
+	}),
+	(req, res) => {
+		console.log(req);
+		if (!req.user) {
+			return res.status(401).json({
+				error: 'User not authenticated'
+			});
+		} else {
+			return res.status(200).json({
+				data: req.user
+			});
 		}
-
-		return null;
 	}
-});
-
-router.post('/login', (req, res, next) => {});
-
-router.post('/registration', (req, res) => {});
+);
 
 module.exports = router;

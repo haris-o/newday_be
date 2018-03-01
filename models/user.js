@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING
 			},
 			email: {
-				allowNull: false,
+				allowNull: true,
 				type: DataTypes.STRING,
 				unique: true,
 				validate: {
@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			active: {
 				type: DataTypes.BOOLEAN,
-				allowNull: false
+				allowNull: false,
+				defaultValue: true
 			}
 		},
 		{}

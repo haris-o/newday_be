@@ -4,8 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var jwt = require('jsonwebtoken');
 var passport = require('passport'),
-	FacebookTokenStrategy = require('passport-facebook-token').Strategy;
+	FacebookTokenStrategy = require('passport-facebook-token');
 
 var models = require('./models');
 var credentials = require(path.join(__dirname, '/config/auth.json'));
@@ -28,27 +29,46 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use(passport.initialize());
+app.use(passport.initialize());
 passport.use(
 	new FacebookTokenStrategy(
 		{
-			clientId: credentials.facebook.app_id,
-			clientSecret: credentials.facebook.app_secret
+			clientID: credentials.facebook.app_id,
+			clientSecret: credentials.facebook.app_secret,
+			profileFields: ['gender', 'name', 'email']
 		},
 		function(accessToken, refreshToken, profile, done) {
 			console.log(profile);
-			models.User.findOne({
-				where: {
-					email: profile.emails[0].value
-				}
+			models.User.findById(profile.id, {
+				include: [{ all: true }]
 			})
 				.then(user => {
 					if (!user) {
-						console.log('User does not exist yet!');
-						done(null, false);
-					} else {
+						models.User.create({
+							id: profile.id,
+							email: profile.emails[0].value || null,
+							token: jwt.sign(profile._json, 'newday'),
+							UserRoleId: 1
+						})
+							.then(user => {
+								console.log(user.dataValues);
+								user
+									.createUserDetail({
+										firstName: profile.name.givenName,
+										lastName: profile.name.familyName,
+										isFemale: profile.gender !== 'male'
+									})
+									.then(details => {
+										user.dataValues.userDetail = details;
+										done(null, user.dataValues);
+									});
+							})
+							.catch(err => done(err));
+					} else if (user.active) {
 						console.log(user);
-						done(null, user);
+						done(null, user.dataValues);
+					} else {
+						done('Inactive user');
 					}
 				})
 				.catch(err => {
@@ -77,7 +97,9 @@ app.use(function(err, req, res, next) {
 
 	// render the error page
 	res.status(err.status || 500);
-	res.render('error');
+	res.json({
+		error: err.message
+	});
 });
 
 module.exports = app;

@@ -8,7 +8,6 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			email: {
-				allowNull: false,
 				type: Sequelize.STRING,
 				unique: true
 			},
@@ -22,8 +21,7 @@ module.exports = {
 			},
 			active: {
 				type: Sequelize.BOOLEAN,
-				allowNull: false,
-				defaultValue: true
+				allowNull: false
 			},
 			createdAt: {
 				allowNull: false,
