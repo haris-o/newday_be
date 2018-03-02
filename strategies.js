@@ -21,7 +21,10 @@ strategies.fb = new FacebookTokenStrategy(
 					models.User.create({
 						id: profile.id,
 						email: profile.emails[0].value || null,
-						token: jwt.sign(profile._json, 'newday'),
+						token: jwt.sign({
+							id: profile.id,
+							UserRoleId: 1
+						}, 'newday'),
 						UserRoleId: 1
 					})
 						.then(user => {
