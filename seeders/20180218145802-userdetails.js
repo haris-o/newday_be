@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var faker = require('faker');
@@ -28,3 +29,4 @@ module.exports = {
 		return queryInterface.bulkDelete('UserDetails', null);
 	}
 };
+*/

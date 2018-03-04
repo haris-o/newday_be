@@ -9,14 +9,13 @@ router.get(
 		scope: ['public_profile', 'email']
 	}),
 	(req, res) => {
-		console.log(req);
 		if (!req.user) {
 			return res.status(401).json({
 				error: 'User not authenticated'
 			});
 		} else {
 			return res.status(200).json({
-				data: req.user
+				accessToken: req.user
 			});
 		}
 	}

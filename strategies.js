@@ -13,15 +13,26 @@ strategies.fb = new FacebookTokenStrategy(
 		profileFields: ['gender', 'name', 'email']
 	},
 	function(accessToken, refreshToken, profile, done) {
-		models.User.findById(profile.id, {
-			include: [{ all: true }]
+		models.User.findOne({
+			where: {
+				providerId: profile.id
+			}
 		})
 			.then(user => {
-				if (!user) {
+				if (user) {
+					let token = jwt.sign(
+						{
+							id: user.dataValues.id,
+							UserRoleId: user.dataValues.UserRoleId
+						},
+						'newday'
+					);
+					done(null, token);
+				} else {
 					models.User.create({
-						id: profile.id,
+						provider: 'facebook',
+						providerId: profile.id,
 						email: profile.emails[0].value || null,
-						token: jwt.sign(profile._json, 'newday'),
 						UserRoleId: 1
 					})
 						.then(user => {
@@ -31,14 +42,18 @@ strategies.fb = new FacebookTokenStrategy(
 									lastName: profile.name.familyName,
 									isFemale: profile.gender !== 'male'
 								})
-								.then(details => {
-									user.dataValues.userDetail = details;
-									done(null, user.dataValues);
+								.then(detail => {
+									let token = jwt.sign(
+										{
+											id: user.dataValues.id,
+											UserRoleId: user.dataValues.UserRoleId
+										},
+										'newday'
+									);
+									done(null, token);
 								});
 						})
 						.catch(err => done(err));
-				} else {
-					done('Inactive user');
 				}
 			})
 			.catch(err => {

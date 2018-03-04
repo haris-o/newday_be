@@ -5,14 +5,15 @@ module.exports = {
 			id: {
 				allowNull: false,
 				primaryKey: true,
+				type: Sequelize.UUID
+			},
+			provider: {
+				type: Sequelize.STRING
+			},
+			providerId: {
 				type: Sequelize.STRING
 			},
 			email: {
-				type: Sequelize.STRING,
-				unique: true
-			},
-			token: {
-				allowNull: false,
 				type: Sequelize.STRING,
 				unique: true
 			},

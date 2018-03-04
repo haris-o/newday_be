@@ -6,6 +6,15 @@ module.exports = (sequelize, DataTypes) => {
 			id: {
 				allowNull: false,
 				primaryKey: true,
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4
+			},
+			provider: {
+				allowNull: true,
+				type: DataTypes.STRING
+			},
+			providerId: {
+				allowNull: true,
 				type: DataTypes.STRING
 			},
 			email: {
@@ -15,11 +24,6 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isEmail: true
 				}
-			},
-			token: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true
 			},
 			password: {
 				type: DataTypes.STRING
