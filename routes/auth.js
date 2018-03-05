@@ -1,9 +1,24 @@
+var passport = require('passport');
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
 
-router.post('/login', (req, res, next) => {});
-
-router.post('/registration', (req, res, next) => {});
+router.get(
+	'/facebook',
+	passport.authenticate('facebook-token', {
+		session: false,
+		scope: ['public_profile', 'email']
+	}),
+	(req, res) => {
+		if (!req.user) {
+			return res.status(401).json({
+				error: 'User not authenticated'
+			});
+		} else {
+			return res.status(200).json({
+				accessToken: req.user
+			});
+		}
+	}
+);
 
 module.exports = router;

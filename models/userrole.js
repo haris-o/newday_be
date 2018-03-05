@@ -8,10 +8,18 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			}
 		},
-		{}
+		{
+			paranoid: true
+		}
 	);
 	UserRole.associate = function(models) {
-		UserRole.hasMany(models.User);
+		UserRole.hasMany(models.User, {
+			foreignKey: {
+				name: 'UserRoleId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
+		});
 	};
 	return UserRole;
 };

@@ -6,30 +6,44 @@ module.exports = (sequelize, DataTypes) => {
 			id: {
 				allowNull: false,
 				primaryKey: true,
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4
+			},
+			provider: {
+				allowNull: true,
 				type: DataTypes.STRING
 			},
-			username: DataTypes.STRING,
-			full_name: DataTypes.STRING,
+			providerId: {
+				allowNull: true,
+				type: DataTypes.STRING
+			},
 			email: {
+				allowNull: true,
 				type: DataTypes.STRING,
 				unique: true,
 				validate: {
 					isEmail: true
 				}
 			},
-			token: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true
-			},
 			password: {
 				type: DataTypes.STRING
 			}
 		},
-		{}
+		{
+			paranoid: true
+		}
 	);
 	User.associate = function(models) {
-		User.belongsTo(models.UserRole);
+		User.belongsTo(models.UserRole, {
+			foreignKey: {
+				name: 'UserRoleId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
+		});
+		User.hasOne(models.UserDetail, {
+			foreignKey: 'id'
+		});
 	};
 	return User;
 };
