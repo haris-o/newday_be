@@ -3,18 +3,34 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', (req, res) => {
-	models.User.findAll()
-		.then(users =>
-			res.status(200).json({
-				data: users
+router.get('/:id?', (req, res) => {
+	const userId = req.params.id;
+	console.log(userId);
+	if (userId) {
+		models.User.findById(userId)
+			.then(user => {
+				res.status(200).json({
+					data: user.dataValues
+				});
 			})
-		)
-		.catch(error =>
-			res.status(500).json({
-				error: error
-			})
-		);
+			.catch(error => {
+				res.status(500).json({
+					error: error
+				});
+			});
+	} else {
+		models.User.findAll()
+			.then(users =>
+				res.status(200).json({
+					data: users
+				})
+			)
+			.catch(error =>
+				res.status(500).json({
+					error: error
+				})
+			);
+	}
 });
 
 /* SOFT DELETE a user */
