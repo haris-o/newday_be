@@ -5,9 +5,10 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/:id?', (req, res) => {
 	const userId = req.params.id;
-	console.log(userId);
 	if (userId) {
-		models.User.findById(userId)
+		models.User.findById(userId, {
+			include: [{ all: true }]
+		})
 			.then(user => {
 				res.status(200).json({
 					data: user.dataValues
