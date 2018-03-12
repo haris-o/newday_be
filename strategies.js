@@ -1,4 +1,5 @@
 var FacebookTokenStrategy = require('passport-facebook-token');
+var GooglePlusTokenStrategy = require('passport-google-plus-token');
 var jwt = require('jsonwebtoken');
 
 var credentials = require('./config/auth.json');
@@ -31,6 +32,62 @@ strategies.fb = new FacebookTokenStrategy(
 				} else {
 					models.User.create({
 						provider: 'facebook',
+						providerId: profile.id,
+						email: profile.emails[0].value || null,
+						UserRoleId: 1
+					})
+						.then(user => {
+							user
+								.createUserDetail({
+									firstName: profile.name.givenName,
+									lastName: profile.name.familyName,
+									isFemale: profile.gender !== 'male'
+								})
+								.then(detail => {
+									let token = jwt.sign(
+										{
+											id: user.dataValues.id,
+											UserRoleId: user.dataValues.UserRoleId
+										},
+										'newday'
+									);
+									done(null, token);
+								});
+						})
+						.catch(err => done(err));
+				}
+			})
+			.catch(err => {
+				done(err);
+			});
+	}
+);
+
+strategies.google = new GooglePlusTokenStrategy(
+	{
+		clientID: credentials.google.app_id,
+		clientSecret: credentials.google.app_secret,
+		passReqToCallback: true
+	},
+	function(req, accessToken, refreshToken, profile, done) {
+		models.User.findOne({
+			where: {
+				providerId: profile.id
+			}
+		})
+			.then(user => {
+				if (user) {
+					let token = jwt.sign(
+						{
+							id: user.dataValues.id,
+							UserRoleId: user.dataValues.UserRoleId
+						},
+						'newday'
+					);
+					done(null, token);
+				} else {
+					models.User.create({
+						provider: 'google',
 						providerId: profile.id,
 						email: profile.emails[0].value || null,
 						UserRoleId: 1
