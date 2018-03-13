@@ -1,6 +1,8 @@
+var LocalStrategy = require('passport-local').Strategy;
 var FacebookTokenStrategy = require('passport-facebook-token');
 var GooglePlusTokenStrategy = require('passport-google-plus-token');
 var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
 
 var credentials = require('./config/auth.json');
 var models = require('./models');
@@ -116,6 +118,39 @@ strategies.google = new GooglePlusTokenStrategy(
 			.catch(err => {
 				done(err);
 			});
+	}
+);
+
+strategies.localLogin = new LocalStrategy(
+	{
+		usernameField: 'email',
+		session: false
+	},
+	function(email, password, done) {
+		models.User.findOne({
+			where: {
+				email: email
+			}
+		})
+			.then(user => {
+				if (user) {
+					if (bcrypt.compareSync(password, user.password)) {
+						let token = jwt.sign(
+							{
+								id: user.dataValues.id,
+								UserRoleId: user.dataValues.UserRoleId
+							},
+							'newday'
+						);
+						done(null, token);
+					} else {
+						done(null, false);
+					}
+				} else {
+					done(null, false);
+				}
+			})
+			.catch(err => done(err));
 	}
 );
 
