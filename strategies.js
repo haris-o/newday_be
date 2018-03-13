@@ -123,8 +123,7 @@ strategies.google = new GooglePlusTokenStrategy(
 
 strategies.localLogin = new LocalStrategy(
 	{
-		usernameField: 'email',
-		session: false
+		usernameField: 'email'
 	},
 	function(email, password, done) {
 		models.User.findOne({
