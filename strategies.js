@@ -154,4 +154,42 @@ strategies.localLogin = new LocalStrategy(
 	}
 );
 
+strategies.localSignup = new LocalStrategy(
+	{
+		usernameField: 'email',
+		session: false
+	},
+	function(email, password, done) {
+		models.User.findOne({
+			where: {
+				email: email
+			}
+		})
+			.then(user => {
+				if (user) {
+					done(null, false);
+				} else {
+					models.User.create({
+						provider: 'local',
+						email: email,
+						UserRoleId: 1,
+						password: bcrypt.hashSync(password)
+					})
+						.then(user => {
+							let token = jwt.sign(
+								{
+									id: user.dataValues.id,
+									UserRoleId: user.dataValues.UserRoleId
+								},
+								'newday'
+							);
+							done(null, token);
+						})
+						.catch(err => done(err));
+				}
+			})
+			.catch(err => done(err));
+	}
+);
+
 module.exports = strategies;
