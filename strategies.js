@@ -156,8 +156,7 @@ strategies.localLogin = new LocalStrategy(
 
 strategies.localSignup = new LocalStrategy(
 	{
-		usernameField: 'email',
-		session: false
+		usernameField: 'email'
 	},
 	function(email, password, done) {
 		models.User.findOne({
@@ -173,7 +172,7 @@ strategies.localSignup = new LocalStrategy(
 						provider: 'local',
 						email: email,
 						UserRoleId: 1,
-						password: bcrypt.hashSync(password)
+						password: bcrypt.hashSync(password, 10)
 					})
 						.then(user => {
 							let token = jwt.sign(
