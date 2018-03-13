@@ -18,6 +18,8 @@ app.use(cookieParser());
 app.use(passport.initialize());
 passport.use(strategies.fb);
 passport.use(strategies.google);
+passport.use('local-signup', strategies.localSignup);
+passport.use('local-login', strategies.localLogin);
 
 app.use('/api/users', users);
 app.use('/api/auth', auth);
