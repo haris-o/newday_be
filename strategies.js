@@ -6,19 +6,18 @@ var bcrypt = require('bcrypt');
 
 var credentials;
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
 	credentials = {
-		facebook = {
-			app_id = process.env.FB_ID,
-			app_secret = process.env.FB_SECRET
+		facebook: {
+			app_id: process.env.FB_ID,
+			app_secret: process.env.FB_SECRET
 		},
-		google = {
+		google: {
 			app_id: process.env.GOOGLE_ID,
 			app_secret: process.env.GOOGLE_SECRET
 		}
-	}
-}
-else{
+	};
+} else {
 	credentials = require('./config/auth.json');
 }
 
