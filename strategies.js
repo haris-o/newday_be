@@ -4,7 +4,24 @@ var GooglePlusTokenStrategy = require('passport-google-plus-token');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 
-var credentials = require('./config/auth.json');
+var credentials;
+
+if(process.env.NODE_ENV === 'production'){
+	credentials = {
+		facebook = {
+			app_id = process.env.FB_ID,
+			app_secret = process.env.FB_SECRET
+		},
+		google = {
+			app_id: process.env.GOOGLE_ID,
+			app_secret: process.env.GOOGLE_SECRET
+		}
+	}
+}
+else{
+	credentials = require('./config/auth.json');
+}
+
 var models = require('./models');
 
 var strategies = {};
