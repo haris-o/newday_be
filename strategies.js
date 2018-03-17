@@ -4,6 +4,8 @@ var GooglePlusTokenStrategy = require('passport-google-plus-token');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 
+var models = require('./models');
+
 var credentials;
 
 if (process.env.NODE_ENV === 'production') {
@@ -20,8 +22,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
 	credentials = require('./config/auth.json');
 }
-
-var models = require('./models');
 
 var strategies = {};
 
