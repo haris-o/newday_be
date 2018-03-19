@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var jwt = require('express-jwt');
 
 /*****
  * auth stavljamo prije provjere tokena jer

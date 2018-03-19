@@ -4,39 +4,22 @@ var router = express.Router();
 
 var models = require('../../models');
 
-var jwt = require('jsonwebtoken');
-function checkToken(token) {
-	try {
-		var decoded = jwt.verify(token, 'newday');
-		return decoded.id;
-	} catch (err) {
-		console.log(err);
-		return false;
-	}
-}
-
 router.get('/me', function(req, res) {
-	let id = checkToken(req.query.access_token);
-	if (id) {
-		models.User.findById(id, {
-			include: [{ all: true }]
-		})
-			.then(user => {
-				res.status(200).json({
-					data: user
-				});
-			})
-			.catch(err => {
-				console.log(err);
-				res.status(401).json({
-					error: 'Database error'
-				});
+	let id = req.token.id;
+	models.User.findById(id, {
+		include: [{ all: true }]
+	})
+		.then(user => {
+			res.status(200).json({
+				data: user
 			});
-	} else {
-		res.status(401).json({
-			error: 'Invalid token'
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(401).json({
+				error: 'Database error'
+			});
 		});
-	}
 });
 
 router.post(
