@@ -4,9 +4,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var strategies = require('./strategies');
-
-var users = require('./routes/admin/users');
-var auth = require('./routes/api/auth');
+var routes = require('./routes');
 
 var app = express();
 
@@ -21,8 +19,7 @@ passport.use(strategies.google);
 passport.use('local-signup', strategies.localSignup);
 passport.use('local-login', strategies.localLogin);
 
-app.use('/api/users', users);
-app.use('/api/auth', auth);
+app.use(routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
