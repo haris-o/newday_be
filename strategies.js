@@ -25,6 +25,19 @@ if (process.env.NODE_ENV === 'production') {
 
 var strategies = {};
 
+function createUserToken(user){
+	return jwt.sign(
+		{
+			id: user.dataValues.id,
+			UserRoleId: user.dataValues.UserRoleId
+		},
+		'newday',
+		{
+			expiresIn: 60 * 60 * 24 * 90
+		}
+	)
+}
+
 strategies.fb = new FacebookTokenStrategy(
 	{
 		clientID: credentials.facebook.app_id,
@@ -39,14 +52,7 @@ strategies.fb = new FacebookTokenStrategy(
 		})
 			.then(user => {
 				if (user) {
-					let token = jwt.sign(
-						{
-							id: user.dataValues.id,
-							UserRoleId: user.dataValues.UserRoleId
-						},
-						'newday'
-					);
-					done(null, token);
+					done(null, createUserToken(user));
 				} else {
 					models.User.create({
 						provider: 'facebook',
@@ -62,14 +68,7 @@ strategies.fb = new FacebookTokenStrategy(
 									isFemale: profile.gender !== 'male'
 								})
 								.then(detail => {
-									let token = jwt.sign(
-										{
-											id: user.dataValues.id,
-											UserRoleId: user.dataValues.UserRoleId
-										},
-										'newday'
-									);
-									done(null, token);
+									done(null, createUserToken(user));
 								});
 						})
 						.catch(err => done(err));
@@ -95,14 +94,7 @@ strategies.google = new GooglePlusTokenStrategy(
 		})
 			.then(user => {
 				if (user) {
-					let token = jwt.sign(
-						{
-							id: user.dataValues.id,
-							UserRoleId: user.dataValues.UserRoleId
-						},
-						'newday'
-					);
-					done(null, token);
+					done(null, createUserToken(user));
 				} else {
 					models.User.create({
 						provider: 'google',
@@ -118,14 +110,7 @@ strategies.google = new GooglePlusTokenStrategy(
 									isFemale: profile.gender !== 'male'
 								})
 								.then(detail => {
-									let token = jwt.sign(
-										{
-											id: user.dataValues.id,
-											UserRoleId: user.dataValues.UserRoleId
-										},
-										'newday'
-									);
-									done(null, token);
+									done(null, createUserToken(user));
 								});
 						})
 						.catch(err => done(err));
@@ -150,14 +135,7 @@ strategies.localLogin = new LocalStrategy(
 			.then(user => {
 				if (user) {
 					if (bcrypt.compareSync(password, user.password)) {
-						let token = jwt.sign(
-							{
-								id: user.dataValues.id,
-								UserRoleId: user.dataValues.UserRoleId
-							},
-							'newday'
-						);
-						done(null, token);
+						done(null, createUserToken(user));
 					} else {
 						done(null, false);
 					}
@@ -190,14 +168,7 @@ strategies.localSignup = new LocalStrategy(
 						password: bcrypt.hashSync(password, 10)
 					})
 						.then(user => {
-							let token = jwt.sign(
-								{
-									id: user.dataValues.id,
-									UserRoleId: user.dataValues.UserRoleId
-								},
-								'newday'
-							);
-							done(null, token);
+							done(null, createUserToken(user));
 						})
 						.catch(err => done(err));
 				}
