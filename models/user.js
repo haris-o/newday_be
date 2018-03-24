@@ -30,7 +30,14 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		{
-			paranoid: true
+			paranoid: true,
+			scopes: {
+				basic: {
+					attributes: {
+						exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'provider', 'providerId']
+					}
+				}
+			}
 		}
 	);
 	User.associate = function(models) {

@@ -1,6 +1,6 @@
 #### MANUAL #####
 
-/config/
+/config/auth.json
 /.vscode/
 
 #### GENERATED ####

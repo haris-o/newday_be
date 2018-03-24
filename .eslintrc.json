@@ -15,6 +15,6 @@
 		"semi": ["error", "always"],
 		"no-undef": "warn",
 		"no-unused-vars": "warn",
-		"no-console": "off"
+		"no-console": "warn"
 	}
 }
