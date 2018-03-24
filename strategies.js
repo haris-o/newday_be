@@ -137,10 +137,10 @@ strategies.localLogin = new LocalStrategy(
 					if (bcrypt.compareSync(password, user.password)) {
 						done(null, createUserToken(user));
 					} else {
-						done(new Error('Wrong username or password.'));
+						done(new Error('Wrong email or password.'));
 					}
 				} else {
-					done(new Error('Wrong username or password.'));
+					done(new Error('Wrong email or password.'));
 				}
 			})
 			.catch(err => done(err));
@@ -174,7 +174,7 @@ strategies.localSignup = new LocalStrategy(
 							.catch(err => done(err));
 					}
 					else{
-						done(new Error('Password has to be at least 6 characters long'));
+						done(new Error('Password has to be at least 6 characters long.'));
 					}
 				}
 			})
