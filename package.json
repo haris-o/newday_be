@@ -4,7 +4,11 @@
 	"private": true,
 	"scripts": {
 		"start": "node ./bin/www",
-		"dev": "nodemon ./bin/www"
+		"dev": "nodemon ./bin/www",
+		"migrate": "sequelize db:migrate",
+		"drop": "sequelize db:migrate:undo:all",
+		"seed": "sequelize db:seed:all",
+		"restart": "npm-run-all drop migrate seed"
 	},
 	"dependencies": {
 		"bcrypt": "^1.0.3",
