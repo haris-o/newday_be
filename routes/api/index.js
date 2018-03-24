@@ -9,13 +9,16 @@ var auth = require('./auth');
 router.use('/auth', auth);
 
 router.use(function(req, res, next) {
-	if (!req.token) {
+	if (req.token) {
+		next();
+	} else {
 		return res.status(401).json({
 			error: 'Unauthorized access'
 		});
-	} else {
-		next();
 	}
 });
+
+var user = require('./user');
+router.use('/user', user);
 
 module.exports = router;

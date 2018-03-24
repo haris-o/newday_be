@@ -1,12 +1,12 @@
-var LocalStrategy = require('passport-local').Strategy;
-var FacebookTokenStrategy = require('passport-facebook-token');
-var GooglePlusTokenStrategy = require('passport-google-plus-token');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
+const LocalStrategy = require('passport-local').Strategy;
+const FacebookTokenStrategy = require('passport-facebook-token');
+const GooglePlusTokenStrategy = require('passport-google-plus-token');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-var models = require('./models');
+const models = require('./models');
 
-var credentials;
+let credentials;
 
 if (process.env.NODE_ENV === 'production') {
 	credentials = {
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 	credentials = require('./config/auth.json');
 }
 
-var strategies = {};
+let strategies = {};
 
 function createUserToken(user){
 	return jwt.sign(
@@ -161,16 +161,21 @@ strategies.localSignup = new LocalStrategy(
 				if (user) {
 					done(null, false);
 				} else {
-					models.User.create({
-						provider: 'local',
-						email: email,
-						UserRoleId: 1,
-						password: bcrypt.hashSync(password, 10)
-					})
-						.then(user => {
-							done(null, createUserToken(user));
+					if(password.length >= 6) {
+						models.User.create({
+							provider: 'local',
+							email: email,
+							UserRoleId: 1,
+							password: bcrypt.hashSync(password, 10)
 						})
-						.catch(err => done(err));
+							.then(user => {
+								done(null, createUserToken(user));
+							})
+							.catch(err => done(err));
+					}
+					else{
+						done(null, false);
+					}
 				}
 			})
 			.catch(err => done(err));
