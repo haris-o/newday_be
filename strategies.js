@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 
 let strategies = {};
 
-function createUserToken(user){
+function createUserToken(user) {
 	return jwt.sign(
 		{
 			id: user.dataValues.id,
@@ -44,7 +44,7 @@ strategies.fb = new FacebookTokenStrategy(
 		clientSecret: credentials.facebook.app_secret,
 		profileFields: ['gender', 'name', 'email']
 	},
-	function(accessToken, refreshToken, profile, done) {
+	function (accessToken, refreshToken, profile, done) {
 		models.User.findOne({
 			where: {
 				providerId: profile.id
@@ -86,7 +86,7 @@ strategies.google = new GooglePlusTokenStrategy(
 		clientSecret: credentials.google.app_secret,
 		passReqToCallback: true
 	},
-	function(req, accessToken, refreshToken, profile, done) {
+	function (req, accessToken, refreshToken, profile, done) {
 		models.User.findOne({
 			where: {
 				providerId: profile.id
@@ -126,7 +126,8 @@ strategies.localLogin = new LocalStrategy(
 	{
 		usernameField: 'email'
 	},
-	function(email, password, done) {
+	function (email, password, done) {
+
 		models.User.findOne({
 			where: {
 				email: email
@@ -144,41 +145,55 @@ strategies.localLogin = new LocalStrategy(
 				}
 			})
 			.catch(err => done(err));
+
 	}
 );
 
 strategies.localSignup = new LocalStrategy(
 	{
-		usernameField: 'email'
+		usernameField: 'email',
+		passReqToCallback: true
 	},
-	function(email, password, done) {
-		models.User.findOne({
-			where: {
-				email: email
-			}
-		})
-			.then(user => {
-				if (user) {
-					done(new Error('That email is already in use.'));
-				} else {
-					if(password.length >= 6) {
-						models.User.create({
-							provider: 'local',
-							email: email,
-							UserRoleId: 1,
-							password: bcrypt.hashSync(password, 10)
-						})
-							.then(user => {
-								done(null, createUserToken(user));
-							})
-							.catch(err => done(err));
-					}
-					else{
-						done(new Error('Password has to be at least 6 characters long.'));
-					}
+	function (req, email, password, done) {
+		if (req.body.firstName && email && password) {
+			models.User.findOne({
+				where: {
+					email: email
 				}
 			})
-			.catch(err => done(err));
+				.then(user => {
+					if (user) {
+						done(new Error('That email is already in use.'));
+					} else {
+						if (password.length >= 6) {
+							models.User.create({
+								provider: 'local',
+								email: email,
+								UserRoleId: 1,
+								password: bcrypt.hashSync(password, 10),
+								UserDetail: {
+									firstName: req.body.firstName,
+									lastName: req.body.lastName,
+									nickname: req.body.nickname
+								}
+							}, {
+								include: [models.UserDetail]
+							})
+								.then(user => {
+									done(null, createUserToken(user));
+								})
+								.catch(err => done(err));
+						}
+						else {
+							done(new Error('Password has to be at least 6 characters long.'));
+						}
+					}
+				})
+				.catch(err => done(err));
+		}
+		else {
+			done(new Error('First name, email and password are required.'));
+		}
 	}
 );
 
