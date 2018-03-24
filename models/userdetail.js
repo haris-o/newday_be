@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-	var UserDetail = sequelize.define(
+	let UserDetail = sequelize.define(
 		'UserDetail',
 		{
 			id: {
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			firstName: DataTypes.STRING,
 			lastName: DataTypes.STRING,
-			username: DataTypes.STRING,
+			nickname: DataTypes.STRING,
 			dateOfBirth: DataTypes.DATE,
 			weight: DataTypes.INTEGER,
 			height: DataTypes.INTEGER,
