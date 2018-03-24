@@ -35,7 +35,7 @@ function createUserToken(user){
 		{
 			expiresIn: 60 * 60 * 24 * 90
 		}
-	)
+	);
 }
 
 strategies.fb = new FacebookTokenStrategy(
@@ -137,10 +137,10 @@ strategies.localLogin = new LocalStrategy(
 					if (bcrypt.compareSync(password, user.password)) {
 						done(null, createUserToken(user));
 					} else {
-						done(null, false);
+						done(new Error('Wrong username or password.'));
 					}
 				} else {
-					done(null, false);
+					done(new Error('Wrong username or password.'));
 				}
 			})
 			.catch(err => done(err));
@@ -159,7 +159,7 @@ strategies.localSignup = new LocalStrategy(
 		})
 			.then(user => {
 				if (user) {
-					done(null, false);
+					done(new Error('That email is already in use.'));
 				} else {
 					if(password.length >= 6) {
 						models.User.create({
@@ -174,7 +174,7 @@ strategies.localSignup = new LocalStrategy(
 							.catch(err => done(err));
 					}
 					else{
-						done(null, false);
+						done(new Error('Password has to be at least 6 characters long'));
 					}
 				}
 			})
