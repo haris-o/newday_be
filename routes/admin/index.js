@@ -6,7 +6,7 @@ var users = require('./users');
 router.use(function(req, res, next) {
 	if (req.token.UserRoleId !== 0) {
 		return res.status(401).json({
-			error: 'Unauthorized access'
+			error: 'Unauthorized access.'
 		});
 	} else {
 		next();
