@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('express-jwt');
+const express = require('express');
+const router = express.Router();
+const jwt = require('express-jwt');
 
-var admin = require('./admin');
-var api = require('./api');
+const admin = require('./admin');
+const api = require('./api');
 
 router.use(
 	jwt({ secret: 'newday', requestProperty: 'token' }).unless({

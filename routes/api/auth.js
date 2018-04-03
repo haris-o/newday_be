@@ -2,18 +2,16 @@ const passport = require('passport');
 const express = require('express');
 const router = express.Router();
 
-const models = require('../../models');
-
 router.post(
 	'/login',
 	passport.authenticate('local-login', {
 		session: false
 	}),
-	function(req, res) {
+	function (req, res) {
 		return req.user ? res.status(200).json({
 			accessToken: req.user
 		}) : res.status(422).json({
-			error: 'Invalid data'
+			error: 'Invalid data.'
 		});
 	}
 );
@@ -23,11 +21,11 @@ router.post(
 	passport.authenticate('local-signup', {
 		session: false
 	}),
-	function(req, res) {
+	function (req, res) {
 		return req.user ? res.status(201).json({
 			accessToken: req.user
 		}) : res.status(422).json({
-			error: 'Invalid data'
+			error: 'Invalid data.'
 		});
 	}
 );

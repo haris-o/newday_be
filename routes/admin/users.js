@@ -1,8 +1,8 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
+const express = require('express');
+const bcrypt = require('bcrypt');
 
-import models from '../../models';
-import {validateUserValues} from './validation';
+const models = require('../../models');
+const validateUserValues = require('./validation').validateUserValues;
 
 let router = express.Router();
 
@@ -28,12 +28,12 @@ router.post('/', validateUserValues, (req, res) => {
 			}
 		})
 		.catch(err => res.status(500).json({
-			error: err.message
+			error: err.message || 'Unknown server error.'
 		}));
 });
 
 router.get('/:id?', (req, res) => {
-	const userId = req.params.id;
+	let userId = req.params.id;
 	if (userId) {
 		models.User.findById(userId, {
 			include: [{all: true}]
@@ -50,9 +50,9 @@ router.get('/:id?', (req, res) => {
 					});
 				}
 			})
-			.catch(error => {
+			.catch(err => {
 				res.status(500).json({
-					error: error
+					error: err.message || 'Unknown server error.'
 				});
 			});
 	} else {
@@ -69,21 +69,21 @@ router.get('/:id?', (req, res) => {
 					});
 				}
 			})
-			.catch(error =>
+			.catch(err =>
 				res.status(500).json({
-					error: error
+					error: err.message || 'Unknown server error.'
 				})
 			);
 	}
 });
 
-router.patch('/id', (req, res) => {
+router.patch('/:id', (req, res) => {
 	let userId = req.params.id;
 	let newRoleId = req.body.UserRoleId;
-	if(newRoleId){
+	if (newRoleId) {
 		models.User.findById(userId)
 			.then(user => {
-				if(user){
+				if (user) {
 					user.update({
 						UserRoleId: newRoleId
 					})
@@ -92,19 +92,19 @@ router.patch('/id', (req, res) => {
 							user
 						}))
 						.catch(err => res.status(500).json({
-							error: err.message
-						});
+							error: err.message || 'Unknown server error.'
+						}));
 				}
-				else{
+				else {
 					res.status(404).json({
 						error: 'User not found'
 					});
 				}
 			})
 			.catch(err => res.status(500).json({
-				error: err.message
+				error: err.message || 'Unknown server error.'
 			}));
-	}else{
+	} else {
 		res.status(422).json({
 			error: 'User role ID is required.'
 		});
@@ -112,21 +112,20 @@ router.patch('/id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-	const userId = req.params.id;
-
+	let userId = req.params.id;
 	models.User.destroy({
 		where: {
 			id: userId
 		}
 	})
-		.then(result =>
+		.then(() =>
 			res.status(200).json({
-				message: 'User deleted.'
+				message: 'User successfully deleted.'
 			})
 		)
 		.catch(err =>
 			res.status(500).json({
-				error: err
+				error: err.message || 'Unknown server error.'
 			})
 		);
 });

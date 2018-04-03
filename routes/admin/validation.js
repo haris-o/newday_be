@@ -1,9 +1,9 @@
-import models from '../../models';
+const User = require('../../models').User;
 
-export function validateUserValues(req, res, next){
+exports.validateUserValues = (req, res, next) => {
 	let values = req.body;
 	if(values.email && values.password && values.UserRoleId){
-		models.User.findOne({
+		User.findOne({
 			where: {
 				email: values.email
 			}
@@ -11,7 +11,7 @@ export function validateUserValues(req, res, next){
 			.then(user => {
 				if(user){
 					res.status(422).json({
-						error: 'Email already in use.'
+						error: 'That email is already in use.'
 					});
 				}
 				else if (values.password.length < 6){
@@ -24,7 +24,7 @@ export function validateUserValues(req, res, next){
 				}
 			})
 			.catch(err => res.status(500).json({
-				error: err.message
+				error: err.message || 'Unknown server error.'
 			}));
 	}
 	else {
@@ -32,4 +32,4 @@ export function validateUserValues(req, res, next){
 			error: 'Email, password and role ID are required.'
 		});
 	}
-}
+};
