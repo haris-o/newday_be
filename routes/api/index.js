@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /*****
- * auth stavljamo prije provjere tokena jer
- * to je jedini dio API-a koji ne treba token
+ * /auth route goes before token checking
+ * it's the only route that doesn't need a token
  *****/
-var auth = require('./auth');
+const auth = require('./auth');
 router.use('/auth', auth);
 
 router.use(function(req, res, next) {
@@ -13,12 +13,12 @@ router.use(function(req, res, next) {
 		next();
 	} else {
 		return res.status(401).json({
-			error: 'Unauthorized access'
+			error: 'Unauthorized access.'
 		});
 	}
 });
 
-var user = require('./user');
+const user = require('./user');
 router.use('/user', user);
 
 module.exports = router;
