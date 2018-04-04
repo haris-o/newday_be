@@ -57,6 +57,15 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false
 			}
 		});
+		User.hasMany(models.Task, {
+			foreignKey: {
+				name: 'UserId',
+				allowNull: false
+			}
+		});
+		User.hasMany(models.TaskCategory, {
+			foreignKey: 'UserId'
+		});
 	};
 	return User;
 };

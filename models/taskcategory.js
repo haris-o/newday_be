@@ -1,10 +1,26 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var TaskCategory = sequelize.define('TaskCategory', {
-    name: DataTypes.STRING
-  }, {});
-  TaskCategory.associate = function(models) {
-    // associations can be defined here
-  };
-  return TaskCategory;
+	let TaskCategory = sequelize.define('TaskCategory', {
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false
+		}
+	}, {
+		paranoid: true
+	});
+	TaskCategory.associate = function (models) {
+		TaskCategory.hasMany(models.Task, {
+			foreignKey: 'TaskCategoryId'
+		});
+		TaskCategory.belongsTo(models.User, {
+			foreignKey: 'UserId'
+		});
+		TaskCategory.belongsTo(models.TaskType, {
+			foreignKey: {
+				name: 'TaskTypeId',
+				allowNull: false
+			}
+		});
+	};
+	return TaskCategory;
 };
