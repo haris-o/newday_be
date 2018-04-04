@@ -41,6 +41,7 @@ module.exports = {
 			},
 			EventTypeId: {
 				type: Sequelize.INTEGER,
+				allowNull: false,
 				references: {
 					model: 'EventTypes'
 				},

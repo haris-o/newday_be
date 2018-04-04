@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 	});
 	EventType.associate = function (models) {
 		EventType.hasMany(models.Event, {
-			foreignKey: 'EventTypeId',
+			foreignKey: {
+				name: 'EventTypeId',
+				allowNull: false
+			},
 			onDelete: 'CASCADE'
 		});
 	};

@@ -31,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE'
 		});
 		Task.belongsTo(models.TaskCategory, {
-			foreignKey: 'TaskCategoryId',
+			foreignKey: {
+				name: 'TaskCategoryId',
+				allowNull: false
+			},
 			onDelete: 'CASCADE'
 		});
 		Task.belongsTo(models.TaskType, {

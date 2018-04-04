@@ -38,6 +38,7 @@ module.exports = {
 			},
 			TaskCategoryId: {
 				type: Sequelize.INTEGER,
+				allowNull: false,
 				references: {
 					model: 'TaskCategories'
 				},

@@ -7,15 +7,11 @@ module.exports = {
 			[
 				{
 					id: 0,
-					name: 'admin',
-					createdAt: new Date(),
-					updatedAt: new Date()
+					name: 'admin'
 				},
 				{
 					id: 1,
-					name: 'user',
-					createdAt: new Date(),
-					updatedAt: new Date()
+					name: 'user'
 				}
 			],
 			{}

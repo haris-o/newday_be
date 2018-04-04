@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
 	});
 	TaskCategory.associate = function (models) {
 		TaskCategory.hasMany(models.Task, {
-			foreignKey: 'TaskCategoryId',
+			foreignKey: {
+				name: 'TaskCategoryId',
+				allowNull: false
+			},
 			onDelete: 'CASCADE'
 		});
 		TaskCategory.belongsTo(models.User, {
