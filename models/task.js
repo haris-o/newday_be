@@ -19,22 +19,27 @@ module.exports = (sequelize, DataTypes) => {
 		date: {
 			type: DataTypes.DATEONLY
 		}
-	}, {});
+	}, {
+		timestamps: false
+	});
 	Task.associate = function (models) {
 		Task.belongsTo(models.User, {
 			foreignKey: {
 				name: 'UserId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 		Task.belongsTo(models.TaskCategory, {
-			foreignKey: 'TaskCategoryId'
+			foreignKey: 'TaskCategoryId',
+			onDelete: 'CASCADE'
 		});
 		Task.belongsTo(models.TaskType, {
 			foreignKey: {
 				name: 'TaskTypeId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return Task;

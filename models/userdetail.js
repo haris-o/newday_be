@@ -18,13 +18,16 @@ module.exports = (sequelize, DataTypes) => {
 			isFemale: DataTypes.BOOLEAN
 		},
 		{
-			paranoid: true
+			timestamps: false
 		}
 	);
 	UserDetail.associate = function(models) {
 		UserDetail.belongsTo(models.User, {
-			foreignKey: 'id',
-			targetKey: 'id'
+			foreignKey: {
+				name: 'id',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return UserDetail;

@@ -13,13 +13,15 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: {
 				name: 'TaskTypeId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 		TaskType.hasMany(models.TaskCategory, {
 			foreignKey: {
 				name: 'TaskTypeId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return TaskType;

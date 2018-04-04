@@ -31,17 +31,19 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.TEXT
 		}
 	}, {
-		paranoid:true
+		timestamps: false
 	});
 	Event.associate = function (models) {
 		Event.belongsTo(models.EventType, {
-			foreignKey: 'EventTypeId'
+			foreignKey: 'EventTypeId',
+			onDelete: 'CASCADE'
 		});
 		Event.belongsTo(models.User, {
 			foreignKey: {
 				name: 'UserId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return Event;

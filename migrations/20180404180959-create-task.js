@@ -25,28 +25,23 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'Users'
-				}
+				},
+				onDelete: 'CASCADE'
 			},
 			TaskTypeId: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
 				references: {
 					model: 'TaskTypes'
-				}
+				},
+				onDelete: 'CASCADE'
 			},
 			TaskCategoryId: {
 				type: Sequelize.INTEGER,
 				references: {
 					model: 'TaskCategories'
-				}
-			},
-			createdAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			updatedAt: {
-				allowNull: false,
-				type: Sequelize.DATE
+				},
+				onDelete: 'CASCADE'
 			}
 		});
 	},

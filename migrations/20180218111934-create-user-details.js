@@ -8,9 +8,9 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.UUID,
 				references: {
-					model: 'Users',
-					key: 'id'
-				}
+					model: 'Users'
+				},
+				onDelete: 'CASCADE'
 			},
 			firstName: {
 				type: Sequelize.STRING
@@ -32,18 +32,6 @@ module.exports = {
 			},
 			isFemale: {
 				type: Sequelize.BOOLEAN
-			},
-			createdAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			updatedAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			deletedAt: {
-				allowNull: true,
-				type: Sequelize.DATE
 			}
 		});
 	},

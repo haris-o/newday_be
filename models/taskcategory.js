@@ -6,20 +6,23 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false
 		}
 	}, {
-		paranoid: true
+		timestamps: false
 	});
 	TaskCategory.associate = function (models) {
 		TaskCategory.hasMany(models.Task, {
-			foreignKey: 'TaskCategoryId'
+			foreignKey: 'TaskCategoryId',
+			onDelete: 'CASCADE'
 		});
 		TaskCategory.belongsTo(models.User, {
-			foreignKey: 'UserId'
+			foreignKey: 'UserId',
+			onDelete: 'CASCADE'
 		});
 		TaskCategory.belongsTo(models.TaskType, {
 			foreignKey: {
 				name: 'TaskTypeId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return TaskCategory;

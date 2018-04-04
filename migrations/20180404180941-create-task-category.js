@@ -17,13 +17,15 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'TaskTypes'
-				}
+				},
+				onDelete: 'CASCADE'
 			},
 			UserId: {
 				type: Sequelize.UUID,
 				references: {
 					model: 'Users'
-				}
+				},
+				onDelete: 'CASCADE'
 			}
 		});
 	},

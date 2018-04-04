@@ -36,24 +36,15 @@ module.exports = {
 				allowNull: false,
 				references: {
 					model: 'Users'
-				}
+				},
+				onDelete: 'CASCADE'
 			},
 			EventTypeId: {
 				type: Sequelize.INTEGER,
 				references: {
 					model: 'EventTypes'
-				}
-			},
-			createdAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			updatedAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			deletedAt: {
-				type: Sequelize.DATE
+				},
+				onDelete: 'CASCADE'
 			}
 		});
 	},

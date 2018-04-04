@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-	var UserRole = sequelize.define(
+	let UserRole = sequelize.define(
 		'UserRole',
 		{
 			name: {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		{
-			paranoid: true
+			timestamps: false
 		}
 	);
 	UserRole.associate = function(models) {

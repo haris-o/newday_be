@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-	var User = sequelize.define(
+	let User = sequelize.define(
 		'User',
 		{
 			id: {
@@ -10,11 +10,9 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: DataTypes.UUIDV4
 			},
 			provider: {
-				allowNull: true,
 				type: DataTypes.STRING
 			},
 			providerId: {
-				allowNull: true,
 				type: DataTypes.STRING
 			},
 			email: {
@@ -30,11 +28,10 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		{
-			paranoid: true,
 			scopes: {
 				basic: {
 					attributes: {
-						exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt', 'provider', 'providerId']
+						exclude: ['password', 'provider', 'providerId']
 					}
 				}
 			}
@@ -49,22 +46,26 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE'
 		});
 		User.hasOne(models.UserDetail, {
-			foreignKey: 'id'
+			foreignKey: 'id',
+			onDelete: 'CASCADE'
 		});
 		User.hasMany(models.Event, {
 			foreignKey: {
 				name: 'UserId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 		User.hasMany(models.Task, {
 			foreignKey: {
 				name: 'UserId',
 				allowNull: false
-			}
+			},
+			onDelete: 'CASCADE'
 		});
 		User.hasMany(models.TaskCategory, {
-			foreignKey: 'UserId'
+			foreignKey: 'UserId',
+			onDelete: 'CASCADE'
 		});
 	};
 	return User;

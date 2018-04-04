@@ -5,7 +5,8 @@ module.exports = {
 			id: {
 				allowNull: false,
 				primaryKey: true,
-				type: Sequelize.UUID
+				type: Sequelize.UUID,
+				defaultValue: Sequelize.UUIDV4
 			},
 			provider: {
 				type: Sequelize.STRING
@@ -19,18 +20,6 @@ module.exports = {
 			},
 			password: {
 				type: Sequelize.STRING
-			},
-			createdAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			updatedAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			deletedAt: {
-				allowNull: true,
-				type: Sequelize.DATE
 			},
 			UserRoleId: {
 				type: Sequelize.INTEGER,
