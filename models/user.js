@@ -51,6 +51,12 @@ module.exports = (sequelize, DataTypes) => {
 		User.hasOne(models.UserDetail, {
 			foreignKey: 'id'
 		});
+		User.hasMany(models.Event, {
+			foreignKey: {
+				name: 'UserId',
+				allowNull: false
+			}
+		});
 	};
 	return User;
 };

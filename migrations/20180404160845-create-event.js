@@ -31,6 +31,19 @@ module.exports = {
 			details: {
 				type: Sequelize.TEXT
 			},
+			UserId: {
+				type: Sequelize.UUID,
+				allowNull: false,
+				references: {
+					model: 'Users'
+				}
+			},
+			EventTypeId: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'EventTypes'
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

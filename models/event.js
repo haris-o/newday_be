@@ -34,7 +34,15 @@ module.exports = (sequelize, DataTypes) => {
 		paranoid:true
 	});
 	Event.associate = function (models) {
-		// associations can be defined here
+		Event.belongsTo(models.EventType, {
+			foreignKey: 'EventTypeId'
+		});
+		Event.belongsTo(models.User, {
+			foreignKey: {
+				name: 'UserId',
+				allowNull: false
+			}
+		});
 	};
 	return Event;
 };
