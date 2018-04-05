@@ -9,7 +9,8 @@ module.exports = {
 				defaultValue: Sequelize.UUIDV4
 			},
 			provider: {
-				type: Sequelize.STRING
+				type: Sequelize.STRING,
+				allowNull: false
 			},
 			providerId: {
 				type: Sequelize.STRING
