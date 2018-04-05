@@ -21,4 +21,7 @@ router.use(function(req, res, next) {
 const user = require('./user');
 router.use('/user', user);
 
+const details = require('./details');
+router.use('/details', details);
+
 module.exports = router;

@@ -27,7 +27,7 @@ module.exports = {
 				type: Sequelize.REAL
 			},
 			height: {
-				type: Sequelize.INTEGER
+				type: Sequelize.REAL
 			},
 			isFemale: {
 				type: Sequelize.BOOLEAN
