@@ -4,7 +4,7 @@ const GooglePlusTokenStrategy = require('passport-google-plus-token');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const models = require('./models');
+const models = require('../../../models');
 
 let credentials;
 
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 		}
 	};
 } else {
-	credentials = require('./config/auth.json');
+	credentials = require('../../../config/auth.json');
 }
 
 let strategies = {};
@@ -58,18 +58,17 @@ strategies.fb = new FacebookTokenStrategy(
 						provider: 'facebook',
 						providerId: profile.id,
 						email: profile.emails[0].value || null,
-						UserRoleId: 1
+						UserRoleId: 1,
+						UserDetail: {
+							firstName: profile.name.givenName,
+							lastName: profile.name.familyName,
+							isFemale: profile.gender !== 'male'
+						}
+					}, {
+						include: [models.UserDetail]
 					})
 						.then(user => {
-							user
-								.createUserDetail({
-									firstName: profile.name.givenName,
-									lastName: profile.name.familyName,
-									isFemale: profile.gender !== 'male'
-								})
-								.then(detail => {
-									done(null, createUserToken(user));
-								});
+							done(null, createUserToken(user));
 						})
 						.catch(err => done(err));
 				}
@@ -100,18 +99,17 @@ strategies.google = new GooglePlusTokenStrategy(
 						provider: 'google',
 						providerId: profile.id,
 						email: profile.emails[0].value || null,
-						UserRoleId: 1
+						UserRoleId: 1,
+						UserDetail: {
+							firstName: profile.name.givenName,
+							lastName: profile.name.familyName,
+							isFemale: profile.gender !== 'male'
+						}
+					}, {
+						include: [models.UserDetail]
 					})
 						.then(user => {
-							user
-								.createUserDetail({
-									firstName: profile.name.givenName,
-									lastName: profile.name.familyName,
-									isFemale: profile.gender !== 'male'
-								})
-								.then(detail => {
-									done(null, createUserToken(user));
-								});
+							done(null, createUserToken(user));
 						})
 						.catch(err => done(err));
 				}

@@ -18,8 +18,8 @@ router.use(function(req, res, next) {
 	}
 });
 
-const user = require('./user');
-router.use('/user', user);
+const users = require('./users');
+router.use('/users', users);
 
 const details = require('./details');
 router.use('/details', details);
