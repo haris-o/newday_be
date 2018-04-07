@@ -6,7 +6,7 @@ const models = require('../../models');
 router.get('/me', function (req, res) {
 	let id = req.token.id;
 	models.User.scope('basic').findById(id, {
-		include: [models.UserDetail]
+		include: [{all: true}]
 	})
 		.then(user => {
 			if (user) {
