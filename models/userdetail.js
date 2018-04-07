@@ -3,8 +3,7 @@ module.exports = (sequelize, DataTypes) => {
 	let UserDetail = sequelize.define(
 		'UserDetail',
 		{
-			id: {
-				field: 'UserId',
+			UserId: {
 				allowNull: false,
 				type: DataTypes.UUID,
 				primaryKey: true
@@ -12,19 +11,22 @@ module.exports = (sequelize, DataTypes) => {
 			firstName: DataTypes.STRING,
 			lastName: DataTypes.STRING,
 			nickname: DataTypes.STRING,
-			dateOfBirth: DataTypes.DATE,
-			weight: DataTypes.INTEGER,
-			height: DataTypes.INTEGER,
+			dateOfBirth: DataTypes.DATEONLY,
+			weight: DataTypes.REAL,
+			height: DataTypes.REAL,
 			isFemale: DataTypes.BOOLEAN
 		},
 		{
-			paranoid: true
+			timestamps: false
 		}
 	);
 	UserDetail.associate = function(models) {
 		UserDetail.belongsTo(models.User, {
-			foreignKey: 'id',
-			targetKey: 'id'
+			foreignKey: {
+				name: 'UserId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
 		});
 	};
 	return UserDetail;

@@ -16,7 +16,7 @@ router.get('/me', function (req, res) {
 			}
 			else {
 				res.status(404).json({
-					error: 'User not found'
+					error: 'User not found.'
 				});
 			}
 		})

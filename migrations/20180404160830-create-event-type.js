@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		return queryInterface.createTable('UserRoles', {
+		return queryInterface.createTable('EventTypes', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -9,12 +9,12 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			name: {
-				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: false,
+				type: Sequelize.STRING
 			}
 		});
 	},
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.dropTable('UserRoles');
+		return queryInterface.dropTable('EventTypes');
 	}
 };
