@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 			scopes: {
 				basic: {
 					attributes: {
-						exclude: ['password', 'provider', 'providerId']
+						exclude: ['provider', 'providerId']
 					}
 				}
 			},

@@ -1,6 +1,12 @@
 const passport = require('passport');
 const express = require('express');
 const router = express.Router();
+const strategies = require('./strategies');
+
+passport.use(strategies.fb);
+passport.use(strategies.google);
+passport.use('local-signup', strategies.localSignup);
+passport.use('local-login', strategies.localLogin);
 
 router.post(
 	'/login',
