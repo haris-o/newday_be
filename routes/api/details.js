@@ -87,9 +87,10 @@ router.patch('/', validateUserDetails, (req, res) => {
 			UserId: userId
 		}
 	})
-		.then(() => {
+		.then(details => {
 			res.status(200).json({
-				message: 'User details updated successfully'
+				message: 'User details updated successfully',
+				data: details
 			});
 		})
 		.catch(err => {
