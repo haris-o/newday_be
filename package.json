@@ -20,6 +20,7 @@
 		"jade": "~1.11.0",
 		"jsonwebtoken": "^8.1.1",
 		"morgan": "~1.9.0",
+		"npm-run-all": "^4.1.2",
 		"passport": "^0.4.0",
 		"passport-facebook": "^2.1.1",
 		"passport-facebook-token": "^3.3.0",
