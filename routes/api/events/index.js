@@ -1,95 +1,9 @@
 const express = require('express');
-const validator = require('validator');
-const models = require('../../models');
+const models = require('../../../models/index');
 const router = express.Router();
+const validate = require('./validation');
 
-const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-
-let validateEventValues = (req, res, next) => {
-	try {
-		let {
-			name,
-			startDate,
-			endDate,
-			startTime,
-			endTime,
-			location,
-			EventTypeId
-		} = req.body;
-
-		if (!name || !validator.isLength(name, {min: 3, max: 140})) {
-			res.status(422).json({
-				error: 'Event name is required and has to be between 3 and 140 characters.'
-			});
-			return;
-		}
-
-		if (!startDate || !validator.toDate(startDate)) {
-			res.status(422).json({
-				error: 'Start date must be specified.'
-			});
-			return;
-		}
-
-		if (endDate && !validator.toDate(startDate)) {
-			res.status(422).json({
-				error: 'End date must be a date.'
-			});
-			return;
-		}
-
-		if (endDate && validator.toDate(startDate) > validator.toDate(endDate)) {
-			res.status(422).json({
-				error: 'End date must be after start date.'
-			});
-			return;
-		}
-
-		if (startTime && !startTime.match(timeRegex)) {
-			res.status(422).json({
-				error: 'Start time must be in 24h HH:MM format.'
-			});
-			return;
-		}
-
-		if (endTime && !endTime.match(timeRegex)) {
-			res.status(422).json({
-				error: 'End time must be in 24h HH:MM format.'
-			});
-			return;
-		}
-
-		if (startTime && endTime && startTime > endTime) {
-			res.status(422).json({
-				error: 'End time must be after start time.'
-			});
-			return;
-		}
-
-		if (location && !validator.isLength(location, {min: 3, max: 50})) {
-			res.status(422).json({
-				error: 'Location has to be between 3 and 140 characters.'
-			});
-			return;
-		}
-
-		if (!EventTypeId) {
-			res.status(422).json({
-				error: 'Event type must be specified'
-			});
-			return;
-		}
-
-		next();
-	}
-	catch (err) {
-		res.status(500).json({
-			error: err.message
-		});
-	}
-};
-
-router.post('/', validateEventValues, (req, res) => {
+router.post('/', validate, (req, res) => {
 	let values = Object.assign({}, req.body, {
 		UserId: req.token.id
 	});
@@ -157,7 +71,7 @@ router.get('/:id?', (req, res) => {
 	}
 });
 
-router.patch('/:id', validateEventValues, (req, res) => {
+router.patch('/:id', validate, (req, res) => {
 	let eventId = req.params.id;
 	let userId = req.token.id;
 	let values = req.body;
