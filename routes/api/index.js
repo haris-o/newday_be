@@ -24,7 +24,7 @@ router.use('/user', user);
 const details = require('./details');
 router.use('/details', details);
 
-const events = require('./events/index');
+const events = require('./events');
 router.use('/events', events);
 
 module.exports = router;
