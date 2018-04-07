@@ -3,22 +3,20 @@
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.bulkInsert(
-			'UserRoles',
+			'TaskTypes',
 			[
 				{
-					id: 0,
-					name: 'admin'
+					name: 'To Do',
+					id: 1
 				},
 				{
-					id: 1,
-					name: 'user'
+					name: 'To Buy',
+					id: 2
 				}
-			],
-			{}
-		);
+			], {});
 	},
 
 	down: (queryInterface, Sequelize) => {
-		return queryInterface.bulkDelete('UserRoles', null, {});
+		return queryInterface.bulkDelete('TaskTypes', null, {});
 	}
 };

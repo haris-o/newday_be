@@ -2,15 +2,14 @@
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.createTable('UserDetails', {
-			id: {
-				field: 'UserId',
+			UserId: {
 				allowNull: false,
 				primaryKey: true,
 				type: Sequelize.UUID,
 				references: {
-					model: 'Users',
-					key: 'id'
-				}
+					model: 'Users'
+				},
+				onDelete: 'CASCADE'
 			},
 			firstName: {
 				type: Sequelize.STRING
@@ -22,28 +21,16 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			dateOfBirth: {
-				type: Sequelize.DATE
+				type: Sequelize.DATEONLY
 			},
 			weight: {
-				type: Sequelize.INTEGER
+				type: Sequelize.REAL
 			},
 			height: {
-				type: Sequelize.INTEGER
+				type: Sequelize.REAL
 			},
 			isFemale: {
 				type: Sequelize.BOOLEAN
-			},
-			createdAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			updatedAt: {
-				allowNull: false,
-				type: Sequelize.DATE
-			},
-			deletedAt: {
-				allowNull: true,
-				type: Sequelize.DATE
 			}
 		});
 	},

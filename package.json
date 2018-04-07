@@ -30,7 +30,8 @@
 		"pg": "^7.4.1",
 		"pg-hstore": "^2.3.2",
 		"sequelize": "^4.33.4",
-		"serve-favicon": "~2.4.5"
+		"serve-favicon": "~2.4.5",
+		"validator": "^9.4.1"
 	},
 	"devDependencies": {
 		"faker": "^4.1.0",
