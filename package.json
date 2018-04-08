@@ -30,11 +30,12 @@
 		"passport-oauth": "^1.0.0",
 		"pg": "^7.4.1",
 		"pg-hstore": "^2.3.2",
-		"sequelize": "^4.33.4",
+		"sequelize": "^4.37.6",
 		"serve-favicon": "~2.4.5",
 		"validator": "^9.4.1"
 	},
 	"devDependencies": {
+		"eslint": "^4.19.1",
 		"faker": "^4.1.0",
 		"nodemon": "^1.15.0",
 		"sequelize-cli": "^4.0.0"
