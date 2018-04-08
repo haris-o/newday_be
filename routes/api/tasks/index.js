@@ -23,21 +23,29 @@ router.post('/', validate, (req, res) => {
 			}));
 	}
 	else{
-		values.TaskCategory = {
+		models.TaskCategory.create({
 			name: values.TaskCategoryName,
 			TaskTypeId: values.TaskTypeId,
 			UserId: values.UserId
-		};
-
-		console.log(values);
-
-		models.Task.create(values, {
-			include: [models.TaskCategory]
 		})
-			.then(task => res.status(201).json({
-				message: 'Task created successfully.',
-				data: task
-			}))
+			.then(category => {
+				if(category){
+					values.TaskCategoryId = category.id;
+					models.Task.create(values)
+						.then(task => res.status(201).json({
+							message: 'Task created successfully.',
+							data: task
+						}))
+						.catch(err => res.status(500).json({
+							error: err.message
+						}));
+				}
+				else{
+					res.status(422).json({
+						error: 'Error while creating a category'
+					});
+				}
+			})
 			.catch(err => res.status(500).json({
 				error: err.message
 			}));
