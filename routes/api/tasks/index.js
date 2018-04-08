@@ -29,6 +29,8 @@ router.post('/', validate, (req, res) => {
 			UserId: values.UserId
 		};
 
+		console.log(values);
+
 		models.Task.create(values, {
 			include: [models.TaskCategory]
 		})

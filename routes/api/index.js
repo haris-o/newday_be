@@ -27,4 +27,7 @@ router.use('/details', details);
 const events = require('./events');
 router.use('/events', events);
 
+const tasks = require('./tasks');
+router.use('/tasks', tasks);
+
 module.exports = router;

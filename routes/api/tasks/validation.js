@@ -11,19 +11,19 @@ const validate = (req, res, next) => {
 			TaskCategoryName
 		} = req.body;
 
-		if(!title || validator.isAscii(title)){
+		if(!title || !validator.isLength(title, {min: 3, max: 50})){
 			throw new Error('Title is required.');
 		}
 
-		if(completed === null || completed === undefined || !validator.isBoolean(completed)){
+		if(completed === null || completed === undefined || !validator.isBoolean(completed + '')){
 			throw new Error('Completed can only be true or false');
 		}
 
-		if(!date || !validator.isDate(date)){
+		if(!date || !validator.toDate(date)){
 			throw new Error('Date is missing or in incorrect format.');
 		}
 
-		if(!TaskTypeId || !validator.isInt(TaskTypeId)){
+		if(!TaskTypeId || !validator.isInt(TaskTypeId + '')){
 			throw new Error('Task type is required.');
 		}
 
