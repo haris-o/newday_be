@@ -42,7 +42,7 @@ router.post('/', validate, (req, res) => {
 				}
 				else{
 					res.status(422).json({
-						error: 'Error while creating a category'
+						error: 'Error while creating a category.'
 					});
 				}
 			})
@@ -134,35 +134,48 @@ router.patch('/:id', validate, (req, res) => {
 			}));
 	}
 	else{
-		values.TaskCategory = {
+		models.TaskCategory.create({
 			name: values.TaskCategoryName,
 			TaskTypeId: values.TaskTypeId,
-			UserId: values.UserId
-		};
-
-		models.Task.update(values, {
-			where: {
-				id: taskId,
-				UserId: userId
-			},
-			fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId'],
-			include: [models.TaskCategory]
+			UserId: userId
 		})
-			.then(result => {
-				if (result) {
-					res.status(200).json({
-						message: 'Task updated successfully'
-					});
+			.then(category => {
+				if(category){
+					values.TaskCategoryId = category.id;
+					models.Task.update(values, {
+						where: {
+							id: taskId,
+							UserId: userId
+						},
+						fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId']
+					})
+						.then(result => {
+							if (result) {
+								res.status(200).json({
+									message: 'Task updated successfully'
+								});
+							}
+							else {
+								res.status(404).json({
+									error: 'Task not found.'
+								});
+							}
+						})
+						.catch(err => res.status(500).json({
+							error: err.message || 'Error occurred while updating a task.'
+						}));
 				}
-				else {
-					res.status(404).json({
-						error: 'Task not found.'
+				else{
+					res.status(422).json({
+						error: 'Error while creating a category.'
 					});
 				}
 			})
 			.catch(err => res.status(500).json({
-				error: err.message || 'Error occurred while updating a task.'
+				error: err.message
 			}));
+
+
 	}
 });
 
