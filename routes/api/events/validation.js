@@ -14,15 +14,15 @@ const validate = (req, res, next) => {
 			EventTypeId
 		} = req.body;
 
-		if (!name || !validator.isLength(name, {min: 3, max: 140})) {
+		if (!name || !validator.isLength(name + '', {min: 3, max: 140})) {
 			throw new Error('Event name is required and has to be between 3 and 140 characters.');
 		}
 
-		if (!startDate || !validator.toDate(startDate)) {
+		if (!startDate || !validator.toDate(startDate + '')) {
 			throw new Error('Start date must be specified.');
 		}
 
-		if (endDate && validator.toDate(startDate) > validator.toDate(endDate)) {
+		if (endDate && validator.toDate(startDate + '') > validator.toDate(endDate + '')) {
 			throw new Error('End date must be after start date.');
 		}
 
@@ -44,7 +44,7 @@ const validate = (req, res, next) => {
 			throw new Error('Start time must be before end time.');
 		}
 
-		if (location && !validator.isLength(location, {min: 3, max: 50})) {
+		if (location && !validator.isLength(location + '', {min: 3, max: 50})) {
 			throw new Error('Location has to be between 3 and 50 characters.');
 		}
 
