@@ -15,7 +15,7 @@ const validate = (req, res, next) => {
 			throw new Error('Title is required.');
 		}
 
-		if (!date || !validator.toDate(date)) {
+		if (!date || !validator.toDate(date + '')) {
 			throw new Error('Date is missing or in incorrect format.');
 		}
 
