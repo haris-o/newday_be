@@ -95,31 +95,65 @@ router.get('/:id?', (req, res) => {
 });
 
 router.patch('/:id', validate, (req, res) => {
-	let eventId = req.params.id;
+	let taskId = req.params.id;
 	let userId = req.token.id;
 	let values = req.body;
-	models.Event.update(values, {
-		where: {
-			id: eventId,
-			UserId: userId
-		},
-		fields: ['name', 'startDate', 'endDate', 'startTime', 'endTime', 'location', 'details', 'EventTypeId']
-	})
-		.then(event => {
-			if (event) {
-				res.status(200).json({
-					message: 'Event updated successfully'
-				});
-			}
-			else {
-				res.status(404).json({
-					error: 'Event not found.'
-				});
-			}
+
+	if(values.TaskCategoryId){
+		models.Task.update(values, {
+			where: {
+				id: taskId,
+				UserId: userId
+			},
+			fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId']
 		})
-		.catch(err => res.status(500).json({
-			error: err.message || 'Error occurred while updating an event.'
-		}));
+			.then(result => {
+				if (result) {
+					res.status(200).json({
+						message: 'Task updated successfully'
+					});
+				}
+				else {
+					res.status(404).json({
+						error: 'Task not found.'
+					});
+				}
+			})
+			.catch(err => res.status(500).json({
+				error: err.message || 'Error occurred while updating a task.'
+			}));
+	}
+	else{
+		values.TaskCategory = {
+			name: values.TaskCategoryName,
+			TaskTypeId: values.TaskTypeId,
+			UserId: values.UserId
+		};
+
+		models.Task.update(values, {
+			where: {
+				id: taskId,
+				UserId: userId
+			},
+			fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId'],
+			include: [models.TaskCategory]
+		})
+			.then(result => {
+				if (result) {
+					res.status(200).json({
+						message: 'Task updated successfully'
+					});
+				}
+				else {
+					res.status(404).json({
+						error: 'Task not found.'
+					});
+				}
+			})
+			.catch(err => res.status(500).json({
+				error: err.message || 'Error occurred while updating a task.'
+			}));
+	}
 });
 
 router.delete('/:id', (req, res) => {
