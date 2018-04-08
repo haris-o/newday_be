@@ -22,14 +22,14 @@ router.post('/', validate, (req, res) => {
 				error: err.message
 			}));
 	}
-	else{
+	else {
 		models.TaskCategory.create({
 			name: values.TaskCategoryName,
 			TaskTypeId: values.TaskTypeId,
 			UserId: values.UserId
 		})
 			.then(category => {
-				if(category){
+				if (category) {
 					values.TaskCategoryId = category.id;
 					models.Task.create(values)
 						.then(task => res.status(201).json({
@@ -40,7 +40,7 @@ router.post('/', validate, (req, res) => {
 							error: err.message
 						}));
 				}
-				else{
+				else {
 					res.status(422).json({
 						error: 'Error while creating a category.'
 					});
@@ -109,7 +109,7 @@ router.patch('/:id', validate, (req, res) => {
 	let userId = req.token.id;
 	let values = req.body;
 
-	if(values.TaskCategoryId){
+	if (values.TaskCategoryId) {
 		models.Task.update(values, {
 			where: {
 				id: taskId,
@@ -133,14 +133,14 @@ router.patch('/:id', validate, (req, res) => {
 				error: err.message || 'Error occurred while updating a task.'
 			}));
 	}
-	else{
+	else {
 		models.TaskCategory.create({
 			name: values.TaskCategoryName,
 			TaskTypeId: values.TaskTypeId,
 			UserId: userId
 		})
 			.then(category => {
-				if(category){
+				if (category) {
 					values.TaskCategoryId = category.id;
 					models.Task.update(values, {
 						where: {
@@ -165,7 +165,7 @@ router.patch('/:id', validate, (req, res) => {
 							error: err.message || 'Error occurred while updating a task.'
 						}));
 				}
-				else{
+				else {
 					res.status(422).json({
 						error: 'Error while creating a category.'
 					});
