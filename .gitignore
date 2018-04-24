@@ -2,6 +2,8 @@
 
 /config/auth.json
 /.vscode/
+vpp/*
+!vpp/ERD.vpp
 
 #### GENERATED ####
 ### Node ###
