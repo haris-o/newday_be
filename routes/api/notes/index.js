@@ -21,21 +21,21 @@ router.post('/', validate, (req, res) => {
 router.get('/:id?', (req, res) => {
 	let userId = req.token.id;
 	let noteId = req.params.id;
-	if(noteId){
+	if (noteId) {
 		models.Note.findById(noteId, {
 			attributes: {
 				exclude: ['UserId']
 			}
 		})
 			.then(note => {
-				if(note){
+				if (note) {
 					res.status(200).json({
-						data: event
+						data: note
 					});
 				}
-				else{
+				else {
 					res.status(404).json({
-						error: 'Event not found.'
+						error: 'Note not found.'
 					});
 				}
 			})
@@ -43,7 +43,7 @@ router.get('/:id?', (req, res) => {
 				error: err.message || 'Error occurred while fetching a note.'
 			}));
 	}
-	else{
+	else {
 		models.Note.findAll({
 			where: {
 				UserId: userId
@@ -52,31 +52,25 @@ router.get('/:id?', (req, res) => {
 				exclude: ['UserId']
 			}
 		})
-			.then(notes => {
-				if(notes){
-					res.status(200).json({
-						data: notes
-					});
-				}
-				else{
-					res.status(404).json({
-						error: 'No notes found.'
-					});
-				}
-			})
+			.then(notes =>
+				res.status(200).json({
+					data: notes
+				})
+			)
 			.catch(err => res.status(500).json({
 				error: err.message || 'Error occurred while fetching notes.'
 			}));
 	}
-});
+})
+;
 
-router.patch('/id', validate, (req, res) => {
+router.patch('/:id', validate, (req, res) => {
 	let noteId = req.params.id;
 	let userId = req.token.id;
 	let values = req.body;
 	models.Note.update(values, {
 		where: {
-			id: eventId,
+			id: noteId,
 			UserId: userId
 		},
 		fields: ['title', 'body']
@@ -123,4 +117,6 @@ router.delete('/:id', (req, res) => {
 			error: err.message || 'Error occurred while deleting a note.'
 		}));
 });
+
+module.exports = router;
 

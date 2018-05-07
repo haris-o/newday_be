@@ -19,6 +19,6 @@ const validate = (req, res, next) => {
 			error: err.message
 		});
 	}
-}
+};
 
 module.exports = validate;

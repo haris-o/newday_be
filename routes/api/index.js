@@ -30,4 +30,7 @@ router.use('/events', events);
 const tasks = require('./tasks');
 router.use('/tasks', tasks);
 
+const notes = require('./notes');
+router.use('/notes', notes);
+
 module.exports = router;
