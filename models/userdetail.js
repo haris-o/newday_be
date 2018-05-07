@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 			dateOfBirth: DataTypes.DATEONLY,
 			weight: DataTypes.REAL,
 			height: DataTypes.REAL,
-			isFemale: DataTypes.BOOLEAN
+			isFemale: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: true
+			}
 		},
 		{
 			timestamps: false

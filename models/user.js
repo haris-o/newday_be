@@ -72,6 +72,13 @@ module.exports = (sequelize, DataTypes) => {
 			foreignKey: 'UserId',
 			onDelete: 'CASCADE'
 		});
+		User.hasMany(models.Note, {
+			foreignKey: {
+				name: 'UserId',
+				allowNull: false
+			},
+			onDelete: 'CASCADE'
+		});
 	};
 	return User;
 };

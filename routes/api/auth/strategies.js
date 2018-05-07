@@ -61,8 +61,7 @@ strategies.fb = new FacebookTokenStrategy(
 						UserRoleId: 1,
 						UserDetail: {
 							firstName: profile.name.givenName,
-							lastName: profile.name.familyName,
-							isFemale: profile.gender !== 'male'
+							lastName: profile.name.familyName
 						}
 					}, {
 						include: [models.UserDetail]
@@ -102,8 +101,7 @@ strategies.google = new GooglePlusTokenStrategy(
 						UserRoleId: 1,
 						UserDetail: {
 							firstName: profile.name.givenName,
-							lastName: profile.name.familyName,
-							isFemale: profile.gender !== 'male'
+							lastName: profile.name.familyName
 						}
 					}, {
 						include: [models.UserDetail]
