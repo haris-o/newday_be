@@ -1,9 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GooglePlusTokenStrategy = require('passport-google-plus-token');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const {createUserToken} = require('../utils');
 const models = require('../../../models');
 
 let credentials;
@@ -24,35 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 let strategies = {};
-
-function createUserToken(user) {
-	let accessToken = jwt.sign(
-		{
-			id: user.dataValues.id,
-			UserRoleId: user.dataValues.UserRoleId
-		},
-		'newday',
-		{
-			expiresIn: 60 * 60 * 24 * 90
-		}
-	);
-
-	let refreshToken = jwt.sign(
-		{
-			id: user.dataValues.id,
-			UserRoleId: user.dataValues.UserRoleId
-		},
-		'refresh',
-		{
-			expiresIn: 60 * 60 * 24 * 90
-		}
-	);
-
-	return {
-		accessToken,
-		refreshToken
-	};
-}
 
 strategies.fb = new FacebookTokenStrategy(
 	{

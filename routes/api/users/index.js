@@ -27,6 +27,19 @@ router.get('/', function (req, res) {
 		});
 });
 
+// Route for refreshing tokens
+router.get('/refresh', (req, res) => {
+	let userId = req.token.id;
+	if(req.token.refreshToken){
+
+	}
+	else{
+		res.status(422).json({
+			error: 'Invalid refresh token sent.'
+		});
+	}
+});
+
 router.delete('/', (req, res) => {
 	let userId = req.token.id;
 	models.User.destroy({
