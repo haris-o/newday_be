@@ -134,7 +134,7 @@ strategies.localLogin = new LocalStrategy(
 					if (bcrypt.compareSync(password, user.password)) {
 						done(null, createUserToken(user));
 					} else {
-						done(new Error('Wrong email or password.'));
+						done(new Error('Password is incorrect.'));
 					}
 				} else {
 					done(new Error('Wrong email or password.'));
