@@ -14,9 +14,7 @@ router.post(
 		session: false
 	}),
 	function (req, res) {
-		return req.user ? res.status(200).json({
-			accessToken: req.user
-		}) : res.status(422).json({
+		return req.user ? res.status(200).json(req.user) : res.status(422).json({
 			error: 'Invalid data.'
 		});
 	}
@@ -28,9 +26,7 @@ router.post(
 		session: false
 	}),
 	function (req, res) {
-		return req.user ? res.status(201).json({
-			accessToken: req.user
-		}) : res.status(422).json({
+		return req.user ? res.status(201).json(req.user) : res.status(422).json({
 			error: 'Invalid data.'
 		});
 	}
@@ -43,9 +39,7 @@ router.get(
 		scope: ['public_profile', 'email']
 	}),
 	(req, res) => {
-		return req.user ? res.status(200).json({
-			accessToken: req.user
-		}) : res.status(401).json({
+		return req.user ? res.status(200).json(req.user) : res.status(401).json({
 			error: 'User not authenticated'
 		});
 	}
@@ -57,9 +51,7 @@ router.get(
 		session: false
 	}),
 	(req, res) => {
-		return req.user ? res.status(200).json({
-			accessToken: req.user
-		}) : res.status(401).json({
+		return req.user ? res.status(200).json(req.user) : res.status(401).json({
 			error: 'User not authenticated'
 		});
 	}

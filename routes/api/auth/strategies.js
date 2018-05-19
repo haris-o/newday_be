@@ -1,9 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GooglePlusTokenStrategy = require('passport-google-plus-token');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const {createUserToken} = require('../utils');
 const models = require('../../../models');
 
 let credentials;
@@ -24,19 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 let strategies = {};
-
-function createUserToken(user) {
-	return jwt.sign(
-		{
-			id: user.dataValues.id,
-			UserRoleId: user.dataValues.UserRoleId
-		},
-		'newday',
-		{
-			expiresIn: 60 * 60 * 24 * 90
-		}
-	);
-}
 
 strategies.fb = new FacebookTokenStrategy(
 	{
@@ -134,7 +121,7 @@ strategies.localLogin = new LocalStrategy(
 					if (bcrypt.compareSync(password, user.password)) {
 						done(null, createUserToken(user));
 					} else {
-						done(new Error('Wrong email or password.'));
+						done(new Error('Password is incorrect.'));
 					}
 				} else {
 					done(new Error('Wrong email or password.'));

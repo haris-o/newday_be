@@ -35,8 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 						exclude: ['provider', 'providerId']
 					}
 				}
-			},
-			timestamps: false
+			}
 		}
 	);
 	User.associate = function(models) {

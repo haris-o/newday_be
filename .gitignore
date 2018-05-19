@@ -2,6 +2,7 @@
 
 /config/auth.json
 /.vscode/
+/.idea/
 vpp/*
 !vpp/ERD.vpp
 
