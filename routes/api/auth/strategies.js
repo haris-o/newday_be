@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 let strategies = {};
 
 function createUserToken(user) {
-	return jwt.sign(
+	let accessToken = jwt.sign(
 		{
 			id: user.dataValues.id,
 			UserRoleId: user.dataValues.UserRoleId
@@ -36,6 +36,22 @@ function createUserToken(user) {
 			expiresIn: 60 * 60 * 24 * 90
 		}
 	);
+
+	let refreshToken = jwt.sign(
+		{
+			id: user.dataValues.id,
+			UserRoleId: user.dataValues.UserRoleId
+		},
+		'refresh',
+		{
+			expiresIn: 60 * 60 * 24 * 90
+		}
+	);
+
+	return {
+		accessToken,
+		refreshToken
+	};
 }
 
 strategies.fb = new FacebookTokenStrategy(
