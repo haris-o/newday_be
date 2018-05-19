@@ -28,4 +28,4 @@ function createUserToken(user) {
 	};
 }
 
-module.exports = {createUserToken};
+module.exports = { createUserToken };
