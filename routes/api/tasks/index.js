@@ -23,29 +23,30 @@ router.post('/', validate, (req, res) => {
 			}));
 	}
 	else {
-		models.TaskCategory.create({
-			name: values.TaskCategoryName,
-			TaskTypeId: values.TaskTypeId,
-			UserId: values.UserId
+		return models.sequelize.transaction(t => {
+			return models.TaskCategory.create({
+				name: values.TaskCategoryName,
+				TaskTypeId: values.TaskTypeId,
+				UserId: values.UserId
+			}, {transaction: t})
+				.then(category => {
+					if(category){
+						values.TaskCategoryId = category.id;
+						return models.Task.create(values, {
+							transaction: t
+						});
+					}
+					else{
+						res.status(422).json({
+							error: 'Error while creating a category.'
+						});
+					}
+				});
 		})
-			.then(category => {
-				if (category) {
-					values.TaskCategoryId = category.id;
-					models.Task.create(values)
-						.then(task => res.status(201).json({
-							message: 'Task created successfully.',
-							data: task
-						}))
-						.catch(err => res.status(500).json({
-							error: err.message
-						}));
-				}
-				else {
-					res.status(422).json({
-						error: 'Error while creating a category.'
-					});
-				}
-			})
+			.then(task => res.status(201).json({
+				message: 'Task created successfully.',
+				data: task
+			}))
 			.catch(err => res.status(500).json({
 				error: err.message
 			}));
@@ -163,48 +164,46 @@ router.patch('/:id', validate, (req, res) => {
 			}));
 	}
 	else {
-		models.TaskCategory.create({
-			name: values.TaskCategoryName,
-			TaskTypeId: values.TaskTypeId,
-			UserId: userId
+		return models.sequelize.transaction(t => {
+			return models.TaskCategory.create({
+				name: values.TaskCategoryName,
+				TaskTypeId: values.TaskTypeId,
+				UserId: userId
+			}, {transaction: t})
+				.then(category => {
+					if(category){
+						values.TaskCategoryId = category.dataValues.id;
+						return models.Task.update(values, {
+							where: {
+								id: taskId,
+								UserId: userId
+							},
+							fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId'],
+							transaction: t
+						});
+					}
+					else {
+						res.status(422).json({
+							error: 'Error while creating a category.'
+						});
+					}
+				});
 		})
-			.then(category => {
-				if (category) {
-					values.TaskCategoryId = category.id;
-					models.Task.update(values, {
-						where: {
-							id: taskId,
-							UserId: userId
-						},
-						fields: ['title', 'completed', 'date', 'TaskTypeId', 'TaskCategoryId']
-					})
-						.then(result => {
-							if (result) {
-								res.status(200).json({
-									message: 'Task updated successfully'
-								});
-							}
-							else {
-								res.status(404).json({
-									error: 'Task not found.'
-								});
-							}
-						})
-						.catch(err => res.status(500).json({
-							error: err.message || 'Error occurred while updating a task.'
-						}));
+			.then(result => {
+				if (result) {
+					res.status(200).json({
+						message: 'Task updated successfully'
+					});
 				}
 				else {
-					res.status(422).json({
-						error: 'Error while creating a category.'
+					res.status(404).json({
+						error: 'Task not found.'
 					});
 				}
 			})
 			.catch(err => res.status(500).json({
-				error: err.message
+				error: err.message || 'Error occurred while updating a task.'
 			}));
-
-
 	}
 });
 
