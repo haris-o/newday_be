@@ -8,11 +8,10 @@ router.post('/', validate, (req, res) => {
 		UserId: req.token.id
 	});
 	models.Note.create(values)
-		.then(
-			note => res.status(201).json({
-				message: 'Note created successfully.',
-				data: note
-			}))
+		.then(note => res.status(201).json({
+			message: 'Note created successfully.',
+			data: note
+		}))
 		.catch(err => res.status(500).json({
 			error: err.message || 'Error occurred while adding a note.'
 		}));
