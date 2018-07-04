@@ -33,4 +33,7 @@ router.use('/tasks', tasks);
 const notes = require('./notes');
 router.use('/notes', notes);
 
+const quotes = require('./quotes');
+router.use('/quotes', quotes);
+
 module.exports = router;

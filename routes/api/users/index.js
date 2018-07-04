@@ -4,13 +4,13 @@ const router = express.Router();
 
 const validate = require('./validation');
 const models = require('../../../models');
-const { createUserToken } = require('../utils');
+const {createUserToken} = require('../utils');
 
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
 	let id = req.token.id;
 	models.User.scope('basic')
 		.findById(id, {
-			include: [{ all: true }]
+			include: [{all: true}]
 		})
 		.then(user => {
 			if (user) {
